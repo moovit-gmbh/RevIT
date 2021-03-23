@@ -1,0 +1,81 @@
+@import "src/mixins";
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  background-color: #232323;
+  padding: 2em;
+
+
+}
+
+h1 {
+  font-size: 22pt;
+}
+
+body, p, h1, h2 {
+  color: white;
+}
+
+.container {
+  padding: 0!important;
+}
+
+.application-title {
+  text-decoration: none;
+
+  &__text {
+    font-size: 28pt;
+  }
+  &__version {
+    font-size: 9.5pt;
+  }
+}
+
+.footer {
+  padding: 80px 0 20px 0;
+
+  @include white-link;
+}
+
+.need-help {
+  margin-bottom: 65px;
+
+  &__headline {
+
+  }
+  &__phone-container {
+
+  }
+  &__phone-icon {
+    background: #444444;
+    border-radius: 5px;
+    padding: 1px;
+  }
+  &__phone-number {
+
+  }
+  &__phone-number-link {
+    &, &:hover, &:visited, &:active {
+      text-decoration: none;
+    }
+  }
+}
+
+.developed-by {
+  &__text {
+
+  }
+  &__image {
+    width: 65px;
+    height: auto;
+  }
+  &__visit-us-text {
+
+  }
+  &__link {
+
+  }
+}

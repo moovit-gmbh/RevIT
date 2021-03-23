@@ -1,0 +1,15 @@
+@mixin white-link {
+  a, a:hover, a:visited, a:active {
+    color:white!important;
+    font-size: 12pt;
+  }
+  a:hover {
+    color:#2196f3!important;
+  }
+}
+@mixin white-link-no-underline {
+  @include white-link;
+  a, a:hover, a:visited, a:active {
+    text-decoration: none!important;
+  }
+}
