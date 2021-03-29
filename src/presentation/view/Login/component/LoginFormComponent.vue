@@ -134,6 +134,7 @@ export default class LoginFormComponent extends MyVue {
   updateNamespaceList() {
     Container().getUserService().listNamespacesByEmail(this.email).subscribe((namespaceList:string[]) => {
       this.namespaces = namespaceList;
+
       if (this.namespaces.length > 0) {
         this.selectedNamespace = this.namespaces[0];
       } else {

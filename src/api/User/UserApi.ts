@@ -8,6 +8,7 @@ import {UserData} from "@/domain/User/UserData";
 import {LoginResult} from "@/api/User/LoginResult";
 import {AbstractApi} from "@/api/AbstractApi";
 import {ApiUserData} from "@/api/User/ApiUserData";
+import { IsActiveDirectoryUserResult } from "@/api/User/IsActiveDirectoryUserResult";
 
 
 export class UserApi {
@@ -20,8 +21,8 @@ export class UserApi {
     public retrieveUserDataByToken(token:string): Observable<UserData | undefined> {
         const url = this.configService.getRestAPIURL() + "/whoami";
         return Axios.get<ApiUserData>(url, {"headers": { "Authorization": token }}).pipe(
-            tap(x => {
-
+            tap(() => {
+                //need only error logging
             }, e => {
                 console.log(e);
             }),
@@ -30,6 +31,7 @@ export class UserApi {
                 const httpResponseCode = axiosResponse.status;
 
                 switch (httpResponseCode) {
+
                     case 200:
                         result = Object.assign({"id": axiosResponse.data._id}, axiosResponse.data);
                         break;
@@ -53,8 +55,8 @@ export class UserApi {
         const loginAPIUrl = this.configService.getRestAPIURL() + "/login";
         console.log(loginAPIUrl);
         return Axios.post<ApiUserData>(loginAPIUrl, loginRequestData).pipe(
-            tap(x => {
-
+            tap(() => {
+                //need only error logging
             }, e => {
                 console.log(e);
             }),
@@ -90,14 +92,14 @@ export class UserApi {
 
     public listNamespacesByEmail(emailAddress: string): Observable<string[]> {
         const url = this.configService.getRestAPIURL() + "/user/isActiveDirectoryUser?email="+encodeURIComponent(emailAddress);
-        return Axios.get<string[]>(url).pipe(
+        return Axios.get<IsActiveDirectoryUserResult>(url).pipe(
             map(axiosResponse => {
                 let result: string[];
                 const httpResponseCode = axiosResponse.status;
 
                 switch (httpResponseCode) {
                     case 200:
-                        result = axiosResponse.data;
+                        result = axiosResponse.data.namespaces;
                         break;
 
                     default:

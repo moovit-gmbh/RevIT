@@ -9,6 +9,7 @@ export class FFmpegService {
 
     private usedFileNamesBuffer: string[] = [];
 
+
     constructor(private errorService: ErrorService) {
         this.emptyOutputFolder();
         this.createOutputFolderIfNotExists();
