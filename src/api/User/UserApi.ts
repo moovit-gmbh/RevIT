@@ -124,6 +124,10 @@ export class UserApi {
         } else {
           return true;
         }
+      }),
+      catchError((err) => {
+        console.error("Reset password request failed with error: " + err);
+        return of(false);
       })
     );
   }
