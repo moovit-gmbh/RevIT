@@ -252,7 +252,7 @@ this.$http
         return this.userApi.listNamespacesByEmail(emailAddress);
     }
 
-    public sendPasswordResetEmail(emailAddress: string): Observable<void> {
+    public sendPasswordResetEmail(emailAddress: string): Observable<boolean> {
         return this.userApi.sendPasswordResetEmail(emailAddress);
     }
 

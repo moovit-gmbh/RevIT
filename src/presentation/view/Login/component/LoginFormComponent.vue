@@ -11,7 +11,7 @@
                   : 'background: transparent !important;border: none !important;box-shadow: none !important; margin-top: 30%'
               "
             >
-              <v-layout row wrap align-center style="min-height: 150px">
+              <v-layout row wrap align-center >
                 <v-flex xs12 class="text-center">
                   <img
                       width="125px"
@@ -71,14 +71,14 @@
                       ></v-switch>
                     </v-col>
                     <v-col cols="4">
-<!--                      <v-btn
+                      <v-btn
                           style="margin-top: -50px"
                           @click="passwordReset"
                           small
                           elevation="0"
                           color="authButtonSecond"
                       >Forgot Password?
-                      </v-btn>-->
+                      </v-btn>
 
                     </v-col>
                   </v-row>
@@ -107,12 +107,12 @@
 </template>
 
 <script lang="ts">
-import Component from "vue-class-component";
 import Container from "@/Container";
 import {MyVue} from "@/MyVue";
 import {LoginFormType} from "@/presentation/view/Login/LoginFormType";
 import {LoginRequestData} from "@/api/User/LoginRequestData";
 import {LoginResult} from "@/api/User/LoginResult";
+import { Component, Emit } from 'vue-property-decorator';
 
 @Component
 export default class LoginFormComponent extends MyVue {
@@ -143,8 +143,9 @@ export default class LoginFormComponent extends MyVue {
     })
   }
 
+  @Emit("update-auth-page-to-display")
   passwordReset() {
-    this.$emit('update-auth-page-to-display', LoginFormType.ResetPasswordMail);
+    return LoginFormType.ResetPasswordMail;
   }
 
   login() {

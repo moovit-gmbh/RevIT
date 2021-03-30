@@ -12,9 +12,9 @@
       </v-container>
     </v-content>
 
-    <v-footer app>
-      <!-- -->
-    </v-footer>
+<!--    <v-footer app>-->
+<!--      &lt;!&ndash; &ndash;&gt;-->
+<!--    </v-footer>-->
 
     <ErrorModalComponent />
   </v-app>

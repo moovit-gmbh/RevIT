@@ -1,18 +1,39 @@
 @import "src/mixins";
 
+// scrollbar
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1c1c1c;
+  border-left: 1px solid #202020;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3e3e3e;
+  border: solid 3px #202020;
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #606060;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background-color: #232323;
-  padding: 2em;
-
-
 }
 
 h1 {
   font-size: 22pt;
+}
+
+html, body {
+  overflow: hidden;
 }
 
 body, p, h1, h2 {
@@ -20,7 +41,8 @@ body, p, h1, h2 {
 }
 
 .container {
-  padding: 0!important;
+  //padding: 0!important;
+  //padding-top: 2em;
 }
 
 .application-title {
