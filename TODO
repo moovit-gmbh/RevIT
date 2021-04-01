@@ -1,0 +1,29 @@
+Allgemein:
+☐ Höhe vom Fenster anpassen auf etwa 600px damit scrollbar verschwindet
+☐ Active Directory user login funktioniert noch nicht (optional wenn neue Logik)
+☐ Namespace dropdown hinzufügen
+    ☐ email onblur -> get all namespaces des users
+    ☐ Einblenden des Namespace Select fields
+☐ Aktiven Namespace anzeigen
+☐ Option für Namespace Wechsel
+☐ design rafa gala mockups
+    ☐ start page (remove?)
+    ☐ change button style
+☐ logout fehlt
+
+Step1:
+☐ stepper element elevation=0 (flat) background-color:transparent
+☐ direct upload button auf der Step 1 Seite
+    ☐ disabled solange kein Video ausgewählt
+
+Step2:
+☐ "Select external emails"  zu "Add Public Link" ändern
+☐ Switch Style ändern
+☐ Add & cancel buttons beide rechts mit Add ganz rechts
+☐ Wie in RevApp -> Job Kebab Menu -> share -> public link -> add button (+)
+
+step3: 
+☐ Wie in RevApp -> Job Kebab Menu -> share -> internal group
+
+step4:
+☐ kann weg da in step3 usergruppen mit angezeigt werden

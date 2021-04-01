@@ -91,9 +91,9 @@ export default {
     position: relative;
 
     input {
-      position: absolute;
+      position: relative;
       width: 100%;
-      height: 100%;
+      height: 35px;
       text-align: center;
       font-size: 25px;
       transition: all 0.3s;
