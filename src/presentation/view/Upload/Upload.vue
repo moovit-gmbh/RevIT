@@ -4,6 +4,7 @@
       <v-stepper-step
           :complete="e1 > 1"
           step="1"
+          color="var(--primary)"
       >
         Select file
       </v-stepper-step>
@@ -13,6 +14,7 @@
       <v-stepper-step
           :complete="e1 > 2"
           step="2"
+          color="var(--primary)"
       >
         Select external emails
       </v-stepper-step>
@@ -22,6 +24,7 @@
       <v-stepper-step
           :complete="e1 > 3"
           step="3"
+          color="var(--primary)"
       >
         Select groups
       </v-stepper-step>
@@ -31,13 +34,14 @@
       <v-stepper-step
           :complete="e1 > 4"
           step="4"
+          color="var(--primary)"
       >
         Select users
       </v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="5">
+      <v-stepper-step step="5" color="var(--primary)">
         Upload
       </v-stepper-step>
     </v-stepper-header>
@@ -53,7 +57,7 @@
           />
         </v-card>
         <v-btn
-            color="primary"
+            color="primary-btn"
             :disabled="inputFile === null"
             @click="e1 = 2"
         >
@@ -71,13 +75,13 @@
         </v-card>
 
         <v-btn
-            color="primary"
+            color="primary-btn"
             @click="e1 = 3"
         >
           Next
         </v-btn>
 
-        <v-btn @click="e1 = 1" text>
+        <v-btn color="primary-btn" @click="e1 = 1">
           Back
         </v-btn>
       </v-stepper-content>
@@ -92,13 +96,13 @@
         </v-card>
 
         <v-btn
-            color="primary"
+            color="primary-btn"
             @click="e1 = 4"
         >
           Next
         </v-btn>
 
-        <v-btn @click="e1 = 2" text>
+        <v-btn color="primary-btn" @click="e1 = 2">
           Back
         </v-btn>
       </v-stepper-content>
@@ -113,13 +117,13 @@
         </v-card>
 
         <v-btn
-            color="primary"
+            color="primary-btn"
             @click="e1 = 5"
         >
           Next
         </v-btn>
 
-        <v-btn @click="e1 = 3" text>
+        <v-btn color="primary-btn" @click="e1 = 3">
           Back
         </v-btn>
       </v-stepper-content>
@@ -143,18 +147,18 @@
             </div>
             -->
             <p>Once this is finished you can start the upload.</p>
-            <v-btn color="primary" class="mb-6" disabled>Start upload</v-btn>
+            <v-btn color="primary-btn" class="mb-6" disabled>Start upload</v-btn>
           </div>
           <div v-else-if="ffmpegConvertStatus.isFinished && ffmpegConvertStatus.exitCode !== 0">
             <p>Minimizing of the video failed!</p>
             <p>Please go back to the file selection and try again.</p>
             <p>If it fails again, try selecting a different video.</p>
             <p>In case of permanent error contact MoovIT GmbH.</p>
-            <v-btn color="primary" class="mb-6" disabled>Start upload</v-btn>
+            <v-btn color="primary-btn" class="mb-6" disabled>Start upload</v-btn>
           </div>
           <div v-else>
             <p v-if="latestUploadStatus === null">To finish this upload press the "Start upload" button.</p>
-            <v-btn v-if="latestUploadStatus === null" @click="startUpload()" color="primary">Start upload</v-btn>
+            <v-btn v-if="latestUploadStatus === null" @click="startUpload()" color="primary-btn">Start upload</v-btn>
             <div v-else>
               <p v-if="!latestUploadStatus.isFinished">The file is being uploaded now.</p>
               <UploadProgressComponent v-bind:file-name="inputFile.name" v-bind:progress="latestUploadStatus.progress" />
@@ -172,7 +176,7 @@
                 <p v-if="latestUploadStatus.errorMessage">The error message was: {{latestUploadStatus.errorMessage}}</p>
                 <p>Please retry uploading or select a different file.</p>
                 <p>If this error persists, than please contact the customer service.</p>
-                <v-btn @click="startUpload()" class="mb-6" color="primary">Retry upload</v-btn>
+                <v-btn @click="startUpload()" class="mb-6" color="primary-btn">Retry upload</v-btn>
               </div>
             </div>
           </div>
@@ -180,14 +184,14 @@
         </v-card>
 
         <v-btn
-            color="primary"
+            color="primary-btn"
             :disabled="!latestUploadStatus || !latestUploadStatus.isFinished || latestUploadStatus.failed === true"
             @click="finishProcess()"
         >
           Finish
         </v-btn>
 
-        <v-btn v-if="!latestUploadStatus || !latestUploadStatus.isFinished || latestUploadStatus.failed === true" @click="e1 = 4" text>
+        <v-btn color="primary-btn" v-if="!latestUploadStatus || !latestUploadStatus.isFinished || latestUploadStatus.failed === true" @click="e1 = 4">
           Back
         </v-btn>
       </v-stepper-content>

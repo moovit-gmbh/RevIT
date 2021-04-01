@@ -8,4 +8,6 @@ export interface LoginResult {
 
     // if isAuthorized == false, then token is undefined
     "token": undefined | string;
+
+    "isTFAenabled": undefined | boolean;
 }

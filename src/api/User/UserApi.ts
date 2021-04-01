@@ -1,5 +1,5 @@
 import { Observable, of } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
+import { catchError, first, map, mergeMap, tap } from "rxjs/operators";
 import { ErrorService } from "@/domain/ErrorService";
 import Axios from "axios-observable";
 import { ConfigService } from "@/domain/ConfigService";
@@ -8,13 +8,15 @@ import { UserData } from "@/domain/User/UserData";
 import { LoginResult } from "@/api/User/LoginResult";
 import { ApiUserData } from "@/api/User/ApiUserData";
 import { IsActiveDirectoryUserResult } from "@/api/User/IsActiveDirectoryUserResult";
+import { AbstractApi, AuthorizationHeader } from "@/api/AbstractApi";
+import { UserService } from "@/domain/User/UserService";
 
 
 export class UserApi {
 
   constructor(
     private errorService: ErrorService,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {
   }
 
@@ -84,6 +86,15 @@ export class UserApi {
         return result;
       }),
       catchError((err) => {
+        if (
+          err &&
+          err.response &&
+          err.response.data &&
+          err.response.data.message &&
+          err.response.data.message.toLowerCase().indexOf("totp") > -1
+        ) {
+          return of({ isTFAenabled: true } as LoginResult);
+        }
         console.error("Login request failed with error: " + err);
         return of({ isAuthorized: false } as LoginResult);
       })

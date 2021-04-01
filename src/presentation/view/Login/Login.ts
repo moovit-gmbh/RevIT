@@ -3,7 +3,7 @@ import LoginFormComponent from "@/presentation/view/Login/component/LoginFormCom
 import RecoverFormComponent from "@/presentation/view/Login/component/RecoverFormComponent.vue";
 import ResetPasswordEmailFormComponent from "@/presentation/view/Login/component/ResetPasswordEmailFormComponent.vue";
 import ResetPasswordFormComponent from "@/presentation/view/Login/component/ResetPasswordFormComponent.vue";
-import TwoFactorAuthFormComponent from "@/presentation/view/Login/component/TwoFactorAuthFormComponent.vue";
+import TwoFactorAuthFormComponent from "@/presentation/view/Login/component/TwoFactorAuthDialogComponent.vue";
 import {MyVue} from "@/MyVue";
 import {LoginFormType} from "./LoginFormType";
 
