@@ -1,11 +1,12 @@
 <template>
   <div class="test">
-    <h1>Select files</h1>
+<!--    <h1>Select files</h1>-->
     <v-file-input
         v-model="fileModel"
         @change="onFileInputChange"
         truncate-length="15"
-        label="Select files"
+        label="Select file"
+        color="var(--primary--text)"
     ></v-file-input>
 
     <div v-if="fileModel">

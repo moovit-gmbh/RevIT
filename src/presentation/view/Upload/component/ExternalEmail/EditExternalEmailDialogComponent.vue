@@ -6,12 +6,15 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-          color="green lighten-2"
           dark
           v-bind="attrs"
           v-on="on"
+          plain
+          text
+          small
+          style="float: right;"
       >
-        Edit
+        <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
 
@@ -22,6 +25,7 @@
 
       <v-card-text>
         <v-text-field
+            color="var(--primary--text)"
             label="E-Mail address"
             v-model="emailAddressModel"
         ></v-text-field>
@@ -30,6 +34,7 @@
             v-model="commentModel"
             class="my-switch"
             label="COMMENT"
+            color="var(--primary--text)"
         ></v-switch>
         </div>
         <div class="my-switch">
@@ -37,6 +42,7 @@
             v-model="approvalModel"
             class="my-switch"
             label="APPROVAL"
+            color="var(--primary--text)"
         ></v-switch>
         </div>
         <div class="my-switch">
@@ -44,6 +50,7 @@
             v-model="downloadModel"
             class="my-switch"
             label="DOWNLOAD"
+            color="var(--primary--text)"
         ></v-switch>
         </div>
       </v-card-text>
@@ -52,7 +59,7 @@
 
       <v-card-actions>
         <v-btn
-            color="primary"
+            class="primary-btn"
             @click="save"
             :disabled="emailAddressModel.length === 0"
         >
@@ -61,7 +68,8 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn outlined @click="cancelDialog()" text>
+        <v-btn  @click="cancelDialog()"
+                text plain small>
           Cancel
         </v-btn>
       </v-card-actions>

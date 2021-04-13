@@ -2,6 +2,7 @@
   <div class="test">
     <p>Please select a namespace</p>
     <v-select
+        color="var(--primary--text)"
         :items="namespaces"
         v-model="selectedNamespace"
         label="Namespace"

@@ -1,19 +1,22 @@
 <template>
   <div class="test">
-    <h1>Select groups</h1>
+<!--    <h1>Select groups</h1>-->
     <div class="groups" v-if="jobId">
       <ul v-if="groups.length > 0">
         <li v-for="group in groups">
           {{group.name}}
+          <v-btn  text small @click="deleteGroup(group)" style="float: right">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
           <EditGroupDialogComponent
               v-bind:group="group"
               v-bind:jobId="jobId"
           />
-          <v-btn color="red" @click="deleteGroup(group)">Delete</v-btn>
         </li>
       </ul>
     </div>
     <AddGroupDialogComponent
+        style="text-align: right;"
         v-bind:jobId="jobId"
     />
   </div>
@@ -95,11 +98,13 @@ export default class SelectGroupsComponent extends MyVue {
 .groups {
   ul {
     list-style: none;
+    padding: 0;
   }
   li {
-    border: 1px solid black;
-    padding: 5px;
-    margin: 10px;
+    //border: 1px solid black;
+    //padding: 5px;
+    height: 28px;
+    margin: 10px 0px;
     background-color: #444;
   }
 }

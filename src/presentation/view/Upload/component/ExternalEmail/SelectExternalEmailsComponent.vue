@@ -1,19 +1,23 @@
 <template>
   <div class="test">
-    <h1>Select external emails</h1>
+<!--    <h1>Select external emails</h1>-->
     <div class="external-emails" v-if="jobId">
       <ul v-if="tokens.length > 0">
         <li v-for="token in tokens">
           {{token.email}}
+          <v-btn text small @click="deleteToken(token)" style="float: right;">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
           <EditExternalEmailDialogComponent
               v-bind:token="token"
               v-bind:jobId="jobId"
           />
-          <v-btn color="red" @click="deleteToken(token)">Delete</v-btn>
+
         </li>
       </ul>
     </div>
     <AddExternalEmailDialogComponent
+        style="text-align: right;"
         v-bind:jobId="jobId"
     />
   </div>
@@ -92,11 +96,13 @@ export default class SelectExternalEmailsComponent extends MyVue {
 .external-emails {
   ul {
     list-style: none;
+    padding: 0;
   }
   li {
-    border: 1px solid black;
-    padding: 5px;
-    margin: 10px;
+    //border: 1px solid black;
+    //padding: 5px;
+    height: 28px;
+    margin: 10px 0px;
     background-color: #444;
   }
 }

@@ -7,13 +7,13 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: "/",
+    path: "/start",
     name: "start-page",
     component: StartPage,
     meta: { title: "Welcome to RevIT" }
   },
   {
-    path: "/upload",
+    path: "/",
     name: "upload",
     component: Upload,
     meta: { title: "Upload" }

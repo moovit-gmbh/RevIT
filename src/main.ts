@@ -4,6 +4,7 @@ import router from "./router";
 import axios from "axios";
 import Vuetify from "vuetify/lib";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "@mdi/font/css/materialdesignicons.css";
 
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 

@@ -8,7 +8,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="showDialog = false"
+          <v-btn color="primary-btn" @click="showDialog = false"
             >Ok</v-btn
           >
         </v-card-actions>

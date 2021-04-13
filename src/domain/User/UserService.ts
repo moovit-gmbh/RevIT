@@ -1,52 +1,50 @@
-import {BehaviorSubject, Observable, ReplaySubject} from "rxjs";
-import {map, tap} from "rxjs/operators";
-import {ErrorService} from "@/domain/ErrorService";
-import {LoginRequestData} from "@/api/User/LoginRequestData";
-import {LoginResult} from "@/api/User/LoginResult";
-import {UserApi} from "@/api/User/UserApi";
-import {UserData} from "@/domain/User/UserData";
+import { BehaviorSubject, Observable, ReplaySubject } from "rxjs";
+import { first, map, mergeMap, tap } from "rxjs/operators";
+import { ErrorService } from "@/domain/ErrorService";
+import { LoginRequestData } from "@/api/User/LoginRequestData";
+import { LoginResult } from "@/api/User/LoginResult";
+import { UserApi } from "@/api/User/UserApi";
+import { UserData } from "@/domain/User/UserData";
+import { ApiUserData } from "@/api/User/ApiUserData";
 
 export class UserService {
+  private tokenSnapshot: string | undefined = undefined;
+  private token$ = new ReplaySubject<string>(1);
 
-    private tokenSnapshot: string | undefined = undefined;
-    private token$ = new ReplaySubject<string>(1);
+  private isLoggedInSnapshot = false;
+  private isLoggedIn$ = new ReplaySubject<boolean>(1);
 
-    private isLoggedInSnapshot = false;
-    private isLoggedIn$ = new ReplaySubject<boolean>(1);
+  private userDataSnapshot: UserData | undefined = undefined;
+  private userData$ = new ReplaySubject<UserData>(1);
 
-    private userDataSnapshot: UserData | undefined = undefined;
-    private userData$ = new ReplaySubject<UserData>(1);
+  constructor(private errorService: ErrorService, private userApi: UserApi) {
+    this.autoLoginIfPossible();
+  }
 
-    constructor(
-        private errorService: ErrorService,
-        private userApi: UserApi
-    ) {
-        this.autoLoginIfPossible();
+  private autoLoginIfPossible() {
+    const token = localStorage.getItem("token");
+    if (token != null) {
+      console.log("found token in local storage.. performing auto-login..");
+      this.autoLoginByToken(token);
+    } else {
+      this.isLoggedInSnapshot = false;
+      this.isLoggedIn$.next(false);
     }
+  }
 
-    private autoLoginIfPossible() {
-        const token = localStorage.getItem("token");
-        if (token != null) {
-            console.log("found token in local storage.. performing auto-login..");
-            this.autoLoginByToken(token);
-        } else {
-            this.isLoggedInSnapshot = false;
-            this.isLoggedIn$.next(false);
-        }
-    }
+  private autoLoginByToken(token: string) {
+    this.userApi
+      .retrieveUserDataByToken(token)
+      .toPromise()
+      .then(userData => {
+        console.log("userData loaded by token:");
+        console.log(userData);
+        this.userDataSnapshot = userData;
+        this.userData$.next(userData);
+        this.isLoggedInSnapshot = userData != undefined;
+        this.isLoggedIn$.next(userData != undefined);
 
-    private autoLoginByToken(token: string) {
-        this.userApi.retrieveUserDataByToken(token)
-            .toPromise()
-            .then(userData => {
-                console.log("userData loaded by token:");
-                console.log(userData);
-                this.userDataSnapshot = userData;
-                this.userData$.next(userData);
-                this.isLoggedInSnapshot = userData != undefined;
-                this.isLoggedIn$.next(userData != undefined);
-
-                /*
+        /*
                 this.$store.commit("setUser", response.data);
 
                 this.$http
@@ -141,40 +139,42 @@ export class UserService {
                     );
                 }
                  */
-            }).catch(error => {
-            this.isLoggedInSnapshot = false;
-            this.isLoggedIn$.next(false);
-        });
-    }
+      })
+      .catch(error => {
+        this.isLoggedInSnapshot = false;
+        this.isLoggedIn$.next(false);
+      });
+  }
 
-    public login(loginRequestData: LoginRequestData, keepLoggedIn: boolean): Observable<LoginResult> {
-        return this.userApi.login(loginRequestData).pipe(
-            tap(loginResult => {
-                if (loginResult.isAuthorized) {
-                    this.isLoggedInSnapshot = true;
-                    this.isLoggedIn$.next(loginResult.isAuthorized);
-                }
-                if (loginResult.userData) {
-                    this.userDataSnapshot = loginResult.userData;
-                    this.userData$.next(loginResult.userData);
-                }
-                if (loginResult.token) {
+  public login(
+    loginRequestData: LoginRequestData,
+    keepLoggedIn: boolean
+  ): Observable<LoginResult> {
+    return this.userApi.login(loginRequestData).pipe(
+      tap(loginResult => {
+        if (loginResult.isAuthorized) {
+          this.isLoggedInSnapshot = true;
+          this.isLoggedIn$.next(loginResult.isAuthorized);
+        }
+        if (loginResult.userData) {
+          this.userDataSnapshot = loginResult.userData;
+          this.userData$.next(loginResult.userData);
+        }
+        if (loginResult.token) {
+          this.tokenSnapshot = loginResult.token;
+          this.token$.next(loginResult.token);
+          console.log("token:");
+          console.log(loginResult.token);
 
-                    this.tokenSnapshot = loginResult.token;
-                    this.token$.next(loginResult.token);
-                    console.log("token:");
-                    console.log(loginResult.token);
+          // this.autoLoginByToken(loginResult.token);
+        }
+        if (keepLoggedIn && loginResult.token) {
+          localStorage.setItem("tokenSnapshot", loginResult.token);
+        }
+      })
+    );
 
-                    // this.autoLoginByToken(loginResult.token);
-                }
-                if (keepLoggedIn && loginResult.token) {
-                    localStorage.setItem("tokenSnapshot", loginResult.token);
-                }
-            })
-        );
-
-
-        /*
+    /*
 this.$http
     .post(this.$store.state.api + "/login", payload)
     .then((response) => {
@@ -226,38 +226,64 @@ this.$http
         });
       }
     });*/
-    }
+  }
 
-    public getToken$(): Observable<string> {
-        return this.token$.asObservable();
-    }
+  public getToken$(): Observable<string> {
+    return this.token$.asObservable();
+  }
 
-    public getIsLoggedIn$(): Observable<boolean> {
-        return this.isLoggedIn$.asObservable();
-    }
+  public getIsLoggedIn$(): Observable<boolean> {
+    return this.isLoggedIn$.asObservable();
+  }
 
-    public getUserData$(): Observable<UserData> {
-        return this.userData$.asObservable();
-    }
+  public getUserData$(): Observable<UserData> {
+    return this.userData$.asObservable();
+  }
 
-    public logout(): void {
-        localStorage.removeItem("tokenSnapshot");
-        this.tokenSnapshot = undefined;
-        this.userDataSnapshot = undefined;
-        this.isLoggedInSnapshot = false;
-        this.isLoggedIn$.next(false);
-    }
+  public logout(): void {
+    localStorage.removeItem("tokenSnapshot");
+    this.tokenSnapshot = undefined;
+    this.userDataSnapshot = undefined;
+    this.isLoggedInSnapshot = false;
+    this.isLoggedIn$.next(false);
+  }
 
-    public listNamespacesByEmail(emailAddress: string): Observable<string[]> {
-        return this.userApi.listNamespacesByEmail(emailAddress);
-    }
+  public listNamespacesByEmail(emailAddress: string): Observable<string[]> {
+    return this.userApi.listNamespacesByEmail(emailAddress);
+  }
 
-    public sendPasswordResetEmail(emailAddress: string): Observable<boolean> {
-        return this.userApi.sendPasswordResetEmail(emailAddress);
-    }
+  public changeUserActiveNamespace(
+    userId: string,
+    activeNamespace: string
+  ): Observable<UserData | undefined> {
+    return this.getToken$().pipe(
+      first(),
+      mergeMap(token => {
+        return this.userApi
+          .changeUserActiveNamespace(userId, activeNamespace, {
+            headers: { Authorization: token }
+          })
+          .pipe(
+            tap(apiUserData => {
+              if (apiUserData) {
+                console.log(apiUserData.activeNamespace);
+                this.userData$.next(apiUserData);
+              } else {
+                this.errorService.setError('Unable to change User Namespace"');
+              }
+            })
+          );
+      })
+    );
+  }
 
-    public recover2FactorAuthentication(secretRecoverKey: string): Observable<boolean> {
-        return this.userApi.recover2FactorAuthentication(secretRecoverKey);
-    }
+  public sendPasswordResetEmail(emailAddress: string): Observable<boolean> {
+    return this.userApi.sendPasswordResetEmail(emailAddress);
+  }
 
+  public recover2FactorAuthentication(
+    secretRecoverKey: string
+  ): Observable<boolean> {
+    return this.userApi.recover2FactorAuthentication(secretRecoverKey);
+  }
 }

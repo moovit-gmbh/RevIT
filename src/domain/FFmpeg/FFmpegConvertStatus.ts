@@ -4,4 +4,5 @@ export interface FFmpegConvertStatus {
     StdErr: string;
     exitCode?: number;
     outputFilePath: string;
+    progress?: number;
 }

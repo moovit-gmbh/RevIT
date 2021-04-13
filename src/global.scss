@@ -76,12 +76,13 @@ html {
 }
 
 // switch
-// .v-input--switch__track {
-//   height: 20px !important;
-//   margin-top: -3px;
-//   border-radius: 10px;
-//   opacity: 1 !important;
-// }
+ .v-input--switch__track {
+   //height: 20px !important;
+   //margin-top: -3px;
+   //border-radius: 10px;
+   //opacity: 1 !important;
+   //color: var(--primary--text) !important;
+ }
 
 .v-input--switch__thumb {
   background: var(--primary) !important;
@@ -90,6 +91,7 @@ html {
 .v-input--switch{
   height: 20px !important;
   margin-top: -7px;
+  color: var(--primary--text) !important;
 }
 
 // .v-input--switch__thumb:not(.primary--text)::after {
@@ -408,6 +410,6 @@ button.primary-btn {
 .card-subheader{
   font-size: x-large !important
 }
-.v-card__actions{
-  border-top: 1px solid var(--neutral);
-}
+//.v-card__actions{
+//  border-top: 1px solid var(--neutral);
+//}

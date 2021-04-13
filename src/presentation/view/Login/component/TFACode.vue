@@ -35,12 +35,12 @@ export default {
       this.code = verificationCode;
       this.callback(this.code);
     },
-    copyValue(value) {
-      navigator.clipboard.writeText(value);
-      this.$store.commit("setSnackbar", {
-        text: "Value copied",
-      });
-    },
+    // copyValue(value) {
+    //   navigator.clipboard.writeText(value);
+    //   this.$store.commit("setSnackbar", {
+    //     text: "Value copied",
+    //   });
+    // },
     validate() {
       if (this.$refs.validate.validate()) {
         this.callback(this.code);
@@ -51,10 +51,10 @@ export default {
   },
 
   props: {
-    recoverToken: {
-      type: String,
-      default: null,
-    },
+    // recoverToken: {
+    //   type: String,
+    //   default: null,
+    // },
     callback: {
       type: Function,
       default: () => {},

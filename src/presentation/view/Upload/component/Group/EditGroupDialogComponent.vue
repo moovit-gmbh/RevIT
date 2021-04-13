@@ -6,12 +6,15 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-          color="green lighten-2"
           dark
           v-bind="attrs"
           v-on="on"
+          plain
+          text
+          small
+          style="float: right"
       >
-        Edit
+        <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
 
@@ -26,6 +29,7 @@
               v-model="viewModel"
               class="my-switch"
               label="VIEW"
+              color="var(--primary--text)"
           ></v-switch>
         </div>
         <div class="my-switch">
@@ -33,6 +37,7 @@
             v-model="commentModel"
             class="my-switch"
             label="COMMENT"
+            color="var(--primary--text)"
         ></v-switch>
         </div>
         <div class="my-switch">
@@ -40,6 +45,7 @@
             v-model="approvalModel"
             class="my-switch"
             label="APPROVAL"
+            color="var(--primary--text)"
         ></v-switch>
         </div>
         <div class="my-switch">
@@ -47,6 +53,7 @@
             v-model="downloadModel"
             class="my-switch"
             label="DOWNLOAD"
+            color="var(--primary--text)"
         ></v-switch>
         </div>
         <div class="my-switch">
@@ -54,6 +61,7 @@
                v-model="modifyModel"
                class="my-switch"
                label="MODIFY"
+               color="var(--primary--text)"
            ></v-switch>
          </div>
          <div class="my-switch">
@@ -61,6 +69,7 @@
                v-model="shareModel"
                class="my-switch"
                label="SHARE"
+               color="var(--primary--text)"
            ></v-switch>
          </div>
          <div class="my-switch">
@@ -68,6 +77,7 @@
                v-model="deleteModel"
                class="my-switch"
                label="DELETE"
+               color="var(--primary--text)"
            ></v-switch>
         </div>
       </v-card-text>
@@ -76,7 +86,7 @@
 
       <v-card-actions>
         <v-btn
-            color="primary"
+            class="primary-btn"
             @click="save"
         >
           Edit
@@ -84,7 +94,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn outlined @click="cancelDialog()" text>
+        <v-btn @click="cancelDialog()" text plain small>
           Cancel
         </v-btn>
       </v-card-actions>

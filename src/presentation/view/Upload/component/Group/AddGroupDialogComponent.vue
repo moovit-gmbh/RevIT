@@ -7,12 +7,15 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-            color="green lighten-2"
-            dark
             v-bind="attrs"
             v-on="on"
+            style="height: 20px; width: 20px;"
+            fab
+            dark
+            small
+            color="success"
         >
-          Add group
+          <v-icon dark small>add</v-icon>
         </v-btn>
       </template>
 
@@ -27,6 +30,7 @@
               <v-stepper-step
                   :complete="e1 > 1"
                   step="1"
+                  color="var(--primary)"
               >
                 Choose Namespace
               </v-stepper-step>
@@ -36,13 +40,14 @@
               <v-stepper-step
                   :complete="e1 > 2"
                   step="2"
+                  color="var(--primary)"
               >
                 Select Group
               </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3">
+              <v-stepper-step step="3" color="var(--primary)">
                 Set rights
               </v-stepper-step>
             </v-stepper-header>
@@ -67,7 +72,9 @@
                   <p v-if="namespace">These are the groups of namespace "{{namespace}}".</p>
                   <p>Please select one or go back to choose a different namespace.</p>
                   <ul class="group-list" v-if="availableGroupList">
-                    <li v-for="group in availableGroupList">{{group.name}} <v-btn @click="selectGroup(group)">Select</v-btn></li>
+                    <li v-for="group in availableGroupList">{{group.name}}
+                      <v-btn class="authButtonSecond" @click="selectGroup(group)">Select</v-btn>
+                    </li>
                   </ul>
                   <p v-if="availableGroupList === null || availableGroupList.length === 0" class="error--text">
                     No groups found
@@ -88,6 +95,7 @@
                         v-model="viewModel"
                         class="my-switch"
                         label="VIEW"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                   <div class="my-switch">
@@ -95,6 +103,7 @@
                         v-model="commentModel"
                         class="my-switch"
                         label="COMMENT"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                   <div class="my-switch">
@@ -102,6 +111,7 @@
                         v-model="approvalModel"
                         class="my-switch"
                         label="APPROVAL"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                   <div class="my-switch">
@@ -109,6 +119,7 @@
                         v-model="downloadModel"
                         class="my-switch"
                         label="DOWNLOAD"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                   <div class="my-switch">
@@ -116,6 +127,7 @@
                         v-model="modifyModel"
                         class="my-switch"
                         label="MODIFY"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                   <div class="my-switch">
@@ -123,6 +135,7 @@
                         v-model="shareModel"
                         class="my-switch"
                         label="SHARE"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                   <div class="my-switch">
@@ -130,6 +143,7 @@
                         v-model="deleteModel"
                         class="my-switch"
                         label="DELETE"
+                        color="var(--primary--text)"
                     ></v-switch>
                   </div>
                 </v-card>
@@ -143,7 +157,7 @@
         <v-card-actions>
           <v-btn
               v-if="e1 === 1"
-              color="primary"
+              class="primary-btn"
               @click="e1 = 2"
               :disabled="namespace === null"
           >
@@ -152,7 +166,7 @@
 
           <v-btn
               v-if="e1 === 2"
-              color="primary"
+              class="primary-btn"
               @click="e1 = 3"
               :disabled="selectedGroup === null"
           >
@@ -161,24 +175,24 @@
 
           <v-btn
               v-if="e1 === 3"
-              color="primary"
+              class="primary-btn"
               @click="save"
               :disabled="selectedGroup === null"
           >
             Save
           </v-btn>
 
-          <v-btn outlined v-if="e1 === 2" @click="e1 = 1" text>
+          <v-btn outlined v-if="e1 === 2" @click="e1 = 1" class="primary-btn">
             Go back
           </v-btn>
 
-          <v-btn outlined v-if="e1 === 3" @click="e1 = 2" text>
+          <v-btn outlined v-if="e1 === 3" @click="e1 = 2" class="primary-btn">
             Go back
           </v-btn>
 
           <v-spacer></v-spacer>
 
-          <v-btn outlined @click="cancelDialog()" text>
+          <v-btn @click="cancelDialog()" text plain small>
             Cancel
           </v-btn>
         </v-card-actions>
@@ -346,7 +360,7 @@ export default class AddGroupDialogComponent extends MyVue {
   list-style: none;
   padding-left: 0;
   li {
-    border: 1px solid black;
+    //border: 1px solid black;
     padding: 5px;
     margin: 10px;
     background-color: #444;

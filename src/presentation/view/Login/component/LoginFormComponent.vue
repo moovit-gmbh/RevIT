@@ -54,7 +54,7 @@
                     v-if="namespaces.length"
                     v-model="selectedNamespace"
                     :items="namespaces"
-                    prepend-icon="lock"
+                    prepend-icon="view_compact"
                     name="namespace"
                     class="mt-3"
                     color="revapp"
@@ -71,14 +71,14 @@
                       ></v-switch>
                     </v-col>
                     <v-col cols="4">
-<!--                      <v-btn-->
-<!--                        style="margin-top: -50px"-->
-<!--                        @click="passwordReset"-->
-<!--                        small-->
-<!--                        elevation="0"-->
-<!--                        color="authButtonSecond"-->
-<!--                        >Forgot Password?-->
-<!--                      </v-btn>-->
+                      <!--                      <v-btn-->
+                      <!--                        style="margin-top: -50px"-->
+                      <!--                        @click="passwordReset"-->
+                      <!--                        small-->
+                      <!--                        elevation="0"-->
+                      <!--                        color="authButtonSecond"-->
+                      <!--                        >Forgot Password?-->
+                      <!--                      </v-btn>-->
                     </v-col>
                   </v-row>
                 </v-form>
@@ -102,6 +102,7 @@
       </v-container>
     </v-content>
     <TwoFactorAuthFormComponent
+      v-if="tfaDialog"
       :dialog="tfaDialog"
       :email="email"
       :password="password"
@@ -118,7 +119,6 @@ import { LoginFormType } from "@/presentation/view/Login/LoginFormType";
 import { LoginRequestData } from "@/api/User/LoginRequestData";
 import { Component, Emit } from "vue-property-decorator";
 import TwoFactorAuthFormComponent from "@/presentation/view/Login/component/TwoFactorAuthDialogComponent.vue";
-
 
 @Component({
   components: { TwoFactorAuthFormComponent }
@@ -140,7 +140,7 @@ export default class LoginFormComponent extends MyVue {
   created() {}
 
   loginWithTotp(sixDigitCode: string) {
-    console.log(sixDigitCode)
+    console.log(sixDigitCode);
     this.tfaDialog = false;
     this.login(sixDigitCode);
   }

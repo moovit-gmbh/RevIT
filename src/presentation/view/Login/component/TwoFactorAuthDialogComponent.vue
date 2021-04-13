@@ -44,38 +44,6 @@
                       <TFACode :callback="tfaCodeCallback"></TFACode>
                     </v-row>
                   </template>
-
-<!--                  <template v-if="type === 'recover'">-->
-<!--                    <v-row justify="center">-->
-<!--                      <v-col cols="12">-->
-<!--                        <h2>-->
-<!--                          Lost access to your phone? We've got cou covered 💪-->
-<!--                        </h2>-->
-<!--                        <p class="mt-2">-->
-<!--                          Type your recovery code bellow and we’ll get you back-->
-<!--                          on track in no time-->
-<!--                        </p>-->
-<!--                      </v-col>-->
-<!--                    </v-row>-->
-<!--                    <v-row justify="center">-->
-<!--                      <v-col cols="12">-->
-<!--                        <v-form-->
-<!--                            ref="validationRecover"-->
-<!--                            v-model="valid"-->
-<!--                            lazy-validation-->
-<!--                        >-->
-<!--                          <v-text-field-->
-<!--                              ref="initFocus"-->
-<!--                              v-model="recover"-->
-<!--                              :rules="[v => !!v || 'This field is required']"-->
-<!--                              :validate-on-blur="true"-->
-<!--                              color="revapp"-->
-<!--                              label="Recovery Code"-->
-<!--                          ></v-text-field>-->
-<!--                        </v-form>-->
-<!--                      </v-col>-->
-<!--                    </v-row>-->
-<!--                  </template>-->
                 </v-card-text>
 
                 <v-card-actions
@@ -104,22 +72,6 @@
                       </v-btn
                       >
                     </v-col>
-<!--                    <v-col-->
-<!--                        v-if="type === 'twoFactorAuth'"-->
-<!--                        class="text-right"-->
-<!--                        cols="5"-->
-<!--                    >-->
-<!--                      <v-btn-->
-<!--                          color="authButtonSecond"-->
-<!--                          elevation="0"-->
-<!--                          name="cancelButton"-->
-<!--                          small-->
-<!--                          style="border-bottom: 1px solid white"-->
-<!--                          @click="type = 'recover'"-->
-<!--                      >Use my recovery code-->
-<!--                      </v-btn-->
-<!--                      >-->
-<!--                    </v-col>-->
                   </v-row>
                 </v-card-actions>
               </v-flex>
@@ -171,18 +123,17 @@ export default class TwoFactorAuthFormComponent extends MyVue {
 
   @Emit("close-dialog")
   close() {
-    this.clean();
+    // this.clean();
     return false;
   }
 
   @Emit("loginWithTotp")
   verify(sixDigitCode: string) {
-    this.clean();
+    // this.clean();
     return sixDigitCode;
   }
 
   clean() {
-    // this.type = "twoFactorAuth";
     this.sixDigitCode = "";
     this.valid = true;
   }

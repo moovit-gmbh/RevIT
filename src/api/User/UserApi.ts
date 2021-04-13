@@ -101,16 +101,47 @@ export class UserApi {
     );
   }
 
+  public changeUserActiveNamespace(userId: string, activeNamespace: string, authorizationHeader: AuthorizationHeader): Observable<UserData | undefined>{
+    const url = this.configService.getRestAPIURL() + "/user/" + encodeURIComponent(userId) + "/namespace";
+    console.log(url);
+    return Axios.patch<ApiUserData>(url, { namespace: activeNamespace }, authorizationHeader).pipe(
+      tap(() => {
+        //need only error logging
+      }, e => {
+        console.log(e);
+      }),
+      map(axiosResponse => {
+        const httpResponseCode = axiosResponse.status;
+
+        console.log(httpResponseCode);
+        switch (httpResponseCode) {
+          case 200:
+            console.log(axiosResponse.data)
+            return Object.assign({ "id": axiosResponse.data._id }, axiosResponse.data);
+            break;
+
+          default:
+            console.error("Login request failed with unknown response code: " + httpResponseCode + "!");
+            return undefined;
+        }
+      }),
+      catchError((err) => {
+        console.error("Change Namespace failed with error: " + err);
+        return of(undefined);
+      })
+    );
+  }
+
   public listNamespacesByEmail(emailAddress: string): Observable<string[]> {
-    const url = this.configService.getRestAPIURL() + "/user/isActiveDirectoryUser?email=" + encodeURIComponent(emailAddress);
-    return Axios.get<IsActiveDirectoryUserResult>(url).pipe(
+    const url = this.configService.getRestAPIURL() + "/user/namespaces/" + encodeURIComponent(emailAddress);
+    return Axios.get<string[]>(url).pipe(
       map(axiosResponse => {
         let result: string[];
         const httpResponseCode = axiosResponse.status;
 
         switch (httpResponseCode) {
           case 200:
-            result = axiosResponse.data.namespaces;
+            result = axiosResponse.data;
             break;
 
           default:

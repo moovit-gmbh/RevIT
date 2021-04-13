@@ -4,6 +4,7 @@ import {FFmpegConvertStatus} from "@/domain/FFmpeg/FFmpegConvertStatus";
 const fs = require('fs');
 const appRootDir = require('app-root-dir').get();
 const crypto = require("crypto");
+const Timecode = require('smpte-timecode')
 
 export class FFmpegService {
 
@@ -27,7 +28,8 @@ export class FFmpegService {
             isFinished: false,
             StdOut: "",
             StdErr: "",
-            outputFilePath: outputFilePath
+            outputFilePath: outputFilePath,
+            progress: 0,
         } as FFmpegConvertStatus;
 
         const subject = new BehaviorSubject(status);
@@ -53,9 +55,23 @@ export class FFmpegService {
             subject.next(status);
         });
 
+        let durationFrame: string | null = null;
         // watch error output of ffmpeg command
         childProcess.stderr.on( 'data', (data:string) => {
             console.log( `convertVideoFile ffmpeg stderr: ${data}` );
+
+            if(data.indexOf("Duration:") != -1) {
+                const durationIndex = data.indexOf("Duration:") + 10;
+                console.log(data.toString().substring(durationIndex, durationIndex + 8))
+                durationFrame = this.timecodeToFrame(data.toString().substring(durationIndex, durationIndex + 8) + ":00");
+            }
+
+            if(data.indexOf("time=") != -1 && durationFrame != null) {
+                const timeIndex = data.indexOf("time=") + 5;
+                const timeFrame = this.timecodeToFrame(data.toString().substring(timeIndex, timeIndex + 8) + ":00");
+                status.progress = Math.round((parseInt(timeFrame) / parseInt(durationFrame)) * 100);
+            }
+
             status.StdErr += data;
             subject.next(status);
         });
@@ -74,6 +90,11 @@ export class FFmpegService {
         });
 
         return subject.asObservable();
+    }
+
+    private timecodeToFrame(timecode: string) {
+        const t = Timecode(timecode);
+        return t.frameCount;
     }
 
     private createUnusedOutputFilePath(): string
